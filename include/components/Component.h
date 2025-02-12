@@ -1,7 +1,7 @@
 #ifndef COMPONENT_H
 #define COMPONENT_H
 
-#include<typeindex>
+#include <typeindex>
 
 class Component {
     public:
