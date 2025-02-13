@@ -1,9 +1,9 @@
 #ifndef TRANSFORM_H
 #define TRANSFORM_H
 
-#include "components/Component.h"
+#include "Component.hpp"
 
-class Transform : Component {
+class Transform : public Component {
     private: 
     float x, y;
 

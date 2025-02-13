@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #include "../include/catch.hpp"
-#include "../include/GameObject.h"
-#include "../include/components/Transform.h"
+#include "../include/GameObject.hpp"
+#include "../include/components/Transform.hpp"
 
 TEST_CASE("GameObject can add and retrieve components") {
     GameObject obj;
