@@ -6,7 +6,7 @@
 #include <string>
 #include <memory>
 #include <algorithm>
-#include "components/Component.h"
+#include "components/Component.hpp"
 
 struct ComponentHash {
     std::size_t operator()(const std::unique_ptr<Component>& comp) const {
@@ -31,7 +31,7 @@ class GameObject {
 
     template <typename T, typename... Args>
     void addComponent(Args&&... args) {
-        components.insert(std::make_unique<T>(std::forward<Args>(args)...));
+        components.emplace(std::make_unique<T>(std::forward<Args>(args)...));
     }
 
     template <typename T>

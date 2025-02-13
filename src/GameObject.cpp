@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include "GameObject.hpp"
 
 void GameObject::addChild(GameObject* child)
 {
