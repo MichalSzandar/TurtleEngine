@@ -4,7 +4,7 @@
 #include "../include/components/Transform.hpp"
 
 TEST_CASE("GameObject can add and retrieve components") {
-    GameObject obj;
+    GameObject obj("test");
     obj.addComponent<Transform>(10, 20);
 
     Transform* transform = obj.findComponent<Transform>();
@@ -14,7 +14,7 @@ TEST_CASE("GameObject can add and retrieve components") {
 }
 
 TEST_CASE("GameObject can remove components") {
-    GameObject obj;
+    GameObject obj("test");
     obj.addComponent<Transform>(10, 20);
     obj.removeComponent<Transform>();
 

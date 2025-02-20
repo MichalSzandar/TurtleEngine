@@ -1,5 +1,5 @@
-#ifndef SPRITERENDERER_H
-#define SPRITERENDERER_H
+#ifndef SPRITERENDERER_HPP
+#define SPRITERENDERER_HPP
 
 #include "Component.hpp"
 #include <SFML/Graphics.hpp>
@@ -13,7 +13,11 @@ class SpriteRenderer : public Component {
 
     public:
     SpriteRenderer(const std::string& texturePath);
+    SpriteRenderer() = default;
     std::type_index getType() const override;
+    sf::Sprite getSprite();
+    sf::Texture getTexture();
+    bool loadTexture(const std::string &filePath);
 };
 
 #endif

@@ -1,27 +1,29 @@
 #include "GameObject.hpp"
 
-void GameObject::addChild(GameObject* child)
-{
-    children.push_back(child);
+GameObject::GameObject(std::string name) {
+    this->name = name;
+    addComponent<SpriteRenderer>();
 }
 
-bool GameObject::removeChild(GameObject* child)
-{
-    for(int i = 0; i < children.size(); i++) {
-        if(children.at(i) == child) {
-            children.erase(children.begin() + i);
-            return true;
-        }
+void GameObject::addChild(std::unique_ptr<GameObject> child) {
+    children.push_back(std::move(child));
+}
+
+bool GameObject::removeChild(GameObject* child) {
+    auto it = std::find_if(children.begin(), children.end(),
+    [child](const std::unique_ptr<GameObject>& ptr) { return ptr.get() == child; });
+
+    if (it != children.end()) {
+        children.erase(it);
+        return true;
     }
     return false;
 }
 
-std::string GameObject::getName()
-{
+std::string GameObject::getName() {
     return this->name;
 }
 
-void GameObject::setName(std::string newName)
-{
+void GameObject::setName(std::string newName) {
     this->name = newName;
 }
