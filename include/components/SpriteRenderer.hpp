@@ -18,6 +18,7 @@ class SpriteRenderer : public Component {
     sf::Sprite getSprite();
     sf::Texture getTexture();
     bool loadTexture(const std::string &filePath);
+    void displayMenu() override;
 };
 
 #endif

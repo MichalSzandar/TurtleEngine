@@ -56,28 +56,14 @@ void showInspector() {
     SpriteRenderer* spriteRenderer = selectedGameObject->findComponent<SpriteRenderer>();
 
     if(spriteRenderer != nullptr) {
-        ImGui::Text("SpriteRenderer component");
-
-        if (ImGui::Button("Load texture ")) {
-            ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlg", "Choose texture", ".png,.jpg", ".");
-        }
-
-        if (ImGuiFileDialog::Instance()->Display("ChooseFileDlg")) {
-            if (ImGuiFileDialog::Instance()->IsOk()) {
-                std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
-                spriteRenderer->loadTexture(filePath);
-            }
-
-            ImGuiFileDialog::Instance()->Close();
-        }
-
+        spriteRenderer->displayMenu();
     }
 
     ImGui::End();
 }
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "ImGui + SFML");
+    sf::RenderWindow window(sf::VideoMode(800, 600), "ThomasEngine");
     window.setFramerateLimit(60);
 
     // Initialize ImGui

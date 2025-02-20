@@ -6,7 +6,8 @@ bool Scene::addGameObject(std::shared_ptr<GameObject> obj) {
 }
 
 GameObject* Scene::createEmptyObject() {
-    gameObjects.push_back(std::make_shared<GameObject>("obj")); 
+    std::string name = "obj" + gameObjects.size();
+    gameObjects.push_back(std::make_shared<GameObject>(name)); 
     return gameObjects.back().get(); // Pobieramy wskaźnik do nowego obiektu
 }
 
