@@ -1,36 +1,106 @@
 #include <SFML/Graphics.hpp>
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
+#include <scene/Scene.hpp>
+#include <ImGuiFileDialog-0.6.6.1/ImGuiFileDialog.h>
+#include <vector>
+
+//ticks away the moments that make up a dull day
+sf::Clock deltaClock;
+
+//deltaClock in seconds between each clock restart
+float deltaTime;
+
+//vector of available scenes
+std::vector<Scene*> scenes;
+
+Scene* currentScene = nullptr;
+
+GameObject* selectedGameObject = nullptr;
+
+void createScene() {
+    scenes.push_back(new Scene());
+    currentScene = scenes.back();
+}
+
+void showSceneEditor() {
+    if (currentScene == nullptr) {
+        createScene();
+    }
+
+    ImGui::Begin("SceneEditor");
+
+    if (ImGui::Button("Create empty")) {
+        selectedGameObject = currentScene->createEmptyObject();
+    }
+
+    for (auto obj : currentScene->gameObjects) {
+        if(obj == nullptr) continue;
+        if (ImGui::Selectable(obj->getName().c_str(), selectedGameObject == currentScene->findGameObjectByName(obj->getName()))) {
+            selectedGameObject = currentScene->findGameObjectByName(obj->getName());
+        }
+    }
+
+    ImGui::End();
+}
+
+void showInspector() {
+    if (selectedGameObject == nullptr) return;
+
+    ImGui::Begin("Inspector");
+
+    if (ImGui::Button("Add SpriteRenderer") && selectedGameObject->findComponent<SpriteRenderer>() == nullptr) {
+        selectedGameObject->addComponent<SpriteRenderer>();
+    }
+
+    SpriteRenderer* spriteRenderer = selectedGameObject->findComponent<SpriteRenderer>();
+
+    if(spriteRenderer != nullptr) {
+        ImGui::Text("SpriteRenderer component");
+
+        if (ImGui::Button("Load texture ")) {
+            ImGuiFileDialog::Instance()->OpenDialog("ChooseFileDlg", "Choose texture", ".png,.jpg", ".");
+        }
+
+        if (ImGuiFileDialog::Instance()->Display("ChooseFileDlg")) {
+            if (ImGuiFileDialog::Instance()->IsOk()) {
+                std::string filePath = ImGuiFileDialog::Instance()->GetFilePathName();
+                spriteRenderer->loadTexture(filePath);
+            }
+
+            ImGuiFileDialog::Instance()->Close();
+        }
+
+    }
+
+    ImGui::End();
+}
 
 int main() {
     sf::RenderWindow window(sf::VideoMode(800, 600), "ImGui + SFML");
     window.setFramerateLimit(60);
-    
+
     // Initialize ImGui
     ImGui::SFML::Init(window);
 
-    sf::Clock deltaClock;
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            ImGui::SFML::ProcessEvent(window, event); // Pass events to ImGui
+            ImGui::SFML::ProcessEvent(window, event);
             if (event.type == sf::Event::Closed)
                 window.close();
         }
 
-        ImGui::SFML::Update(window, deltaClock.restart());
+        sf::Time dt = deltaClock.restart();
+        deltaTime = dt.asSeconds();
 
-        // GUI Code
-        ImGui::Begin("GameObject Editor");
-        if (ImGui::Button("Create GameObject")) {
-            // TODO: Add a GameObject to your scene
-        }
-        ImGui::End();
+        ImGui::SFML::Update(window, dt);
+
+        showSceneEditor();
+        showInspector();
 
         window.clear();
-        
-        // Draw your SFML game objects here
-
+        currentScene->drawScene(window);
         ImGui::SFML::Render(window);
         window.display();
     }

@@ -1,22 +1,18 @@
 #include "components/Transform.hpp"
 
-Transform::Transform(float x, float y)
-{
+Transform::Transform(float x, float y) {
     this->x = x;
     this->y = y;
 }
 
-std::type_index Transform::getType() const
-{
+std::type_index Transform::getType() const {
     return typeid(Transform);
 }
 
-float Transform::getX()
-{
+float Transform::getX() {
     return this->x;
 }
 
-float Transform::getY()
-{
+float Transform::getY() {
     return this->y;
 }
