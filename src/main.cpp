@@ -49,14 +49,8 @@ void showInspector() {
 
     ImGui::Begin("Inspector");
 
-    if (ImGui::Button("Add SpriteRenderer") && selectedGameObject->findComponent<SpriteRenderer>() == nullptr) {
-        selectedGameObject->addComponent<SpriteRenderer>();
-    }
-
-    SpriteRenderer* spriteRenderer = selectedGameObject->findComponent<SpriteRenderer>();
-
-    if(spriteRenderer != nullptr) {
-        spriteRenderer->displayMenu();
+    for (auto& component : selectedGameObject->components) {
+        component->displayMenu();
     }
 
     ImGui::End();
@@ -84,6 +78,9 @@ int main() {
 
         showSceneEditor();
         showInspector();
+
+        if(currentScene != nullptr)
+            currentScene->update();
 
         window.clear();
         currentScene->drawScene(window);

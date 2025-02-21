@@ -15,10 +15,16 @@ class SpriteRenderer : public Component {
     SpriteRenderer(const std::string& texturePath);
     SpriteRenderer() = default;
     std::type_index getType() const override;
-    sf::Sprite getSprite();
-    sf::Texture getTexture();
+    
+    sf::Sprite getSprite() const;
+
+    sf::Texture getTexture() const;
     bool loadTexture(const std::string &filePath);
+
     void displayMenu() override;
+
+    void setPosition(sf::Vector2f position) override;
+    void setScale(sf::Vector2f scale) override;
 };
 
 #endif

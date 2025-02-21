@@ -9,9 +9,13 @@
 
 class Component {
     public:
+    Component() = default;
     ~Component() = default;
     virtual std::type_index getType() const = 0;
-    virtual void displayMenu();
+    virtual void displayMenu() = 0;
+
+    virtual void setPosition(sf::Vector2f position) = 0;
+    virtual void setScale(sf::Vector2f scale) = 0;
 };
 
 #endif

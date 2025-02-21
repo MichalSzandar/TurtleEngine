@@ -11,11 +11,11 @@ std::type_index SpriteRenderer::getType() const {
     return typeid(SpriteRenderer);
 }
 
-sf::Sprite SpriteRenderer::getSprite() {
+sf::Sprite SpriteRenderer::getSprite() const {
     return sprite;
 }
 
-sf::Texture SpriteRenderer::getTexture() {
+sf::Texture SpriteRenderer::getTexture() const {
     return texture;
 }
 
@@ -43,24 +43,11 @@ void SpriteRenderer::displayMenu() {
 
         ImGuiFileDialog::Instance()->Close();
     }
+}
 
-    sf::Vector2f position = sprite.getPosition();
-    sf::Vector2f scale = sprite.getScale();
-
-    ImGui::Text("Transform component");
-
-    ImGui::Text("x position");
-    ImGui::InputFloat("###x", &position.x);
-
-    ImGui::Text("y position");
-    ImGui::InputFloat("###y", &position.y);
-
-    ImGui::Text("scale x");
-    ImGui::InputFloat("###scaleX", &scale.x);
-
-    ImGui::Text("scale y");
-    ImGui::InputFloat("###scaleY", &scale.y);
-
+void SpriteRenderer::setPosition(sf::Vector2f position) {
     sprite.setPosition(position);
+}
+void SpriteRenderer::setScale(sf::Vector2f scale) {
     sprite.setScale(scale);
 }

@@ -6,11 +6,10 @@ bool Scene::addGameObject(std::shared_ptr<GameObject> obj) {
 }
 
 GameObject* Scene::createEmptyObject() {
-    std::string name = "obj" + gameObjects.size();
+    std::string name = "obj" + std::to_string(gameObjects.size());
     gameObjects.push_back(std::make_shared<GameObject>(name)); 
-    return gameObjects.back().get(); // Pobieramy wskaźnik do nowego obiektu
+    return gameObjects.back().get();
 }
-
 
 bool Scene::removeGameObject(std::shared_ptr<GameObject> obj) {
     gameObjects.erase(std::remove(gameObjects.begin(), gameObjects.end(), obj), gameObjects.end());
@@ -32,6 +31,13 @@ void Scene::drawScene(sf::RenderWindow &window) {
     }
 }
 
-size_t Scene::getNumOfObjects() {
+void Scene::update() {
+    for (auto obj : gameObjects) {
+        obj->update();
+    }
+}
+
+size_t Scene::getNumOfObjects()
+{
     return gameObjects.size();
 }

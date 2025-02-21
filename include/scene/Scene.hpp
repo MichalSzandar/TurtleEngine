@@ -21,6 +21,8 @@ class Scene {
 
     void drawScene(sf::RenderWindow& window);
 
+    void update();
+
     size_t getNumOfObjects();
 };
 
