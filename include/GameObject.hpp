@@ -8,18 +8,8 @@
 #include <algorithm>
 #include "components/Component.hpp"
 #include "components/SpriteRenderer.hpp"
-
-struct ComponentHash {
-    std::size_t operator()(const std::unique_ptr<Component>& comp) const {
-        return comp->getType().hash_code();
-    }
-};
-
-struct ComponentEqual {
-    bool operator()(const std::unique_ptr<Component>& a, const std::unique_ptr<Component>& b) const {
-        return a->getType() == b->getType();
-    }
-};
+#include "components/Transform.hpp"
+#include "components/BoxCollider.hpp"
 
 class GameObject {
     private:
@@ -44,7 +34,7 @@ class GameObject {
         });
 
         if (it != components.end()) {
-            components.erase(it, components.end()); // Properly erase
+            components.erase(it, components.end());
             return true;
         }
         return false;
@@ -68,6 +58,10 @@ class GameObject {
 
     std::string getName();
     void setName(std::string newName);
+
+    void update();
+
+    void drawGizmos(sf::RenderWindow &window);
 };
 
 
