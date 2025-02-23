@@ -4,6 +4,7 @@ GameObject::GameObject(std::string name) {
     this->name = name;
     addComponent<Transform>(0, 0);
     addComponent<SpriteRenderer>();
+    addComponent<BoxCollider>(0, 0, 0, 0);
 }
 
 void GameObject::addChild(std::unique_ptr<GameObject> child) {
@@ -34,5 +35,12 @@ void GameObject::update() {
     for (auto &component : components) {
         component->setPosition(sf::Vector2f(transform->getX(), transform->getY()));
         component->setScale(sf::Vector2f(transform->getScaleX(), transform->getScaleY()));
+        component->setRotation(sf::Vector2f(transform->getRotationX(), 0));
+    }
+}
+
+void GameObject::drawGizmos(sf::RenderWindow &window) {
+    for (auto &component: components) {
+        component->drawGizmos(window);
     }
 }

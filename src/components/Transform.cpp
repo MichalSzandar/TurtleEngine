@@ -26,6 +26,9 @@ void Transform::displayMenu() {
     ImGui::Text("scale y");
     ImGui::InputFloat("###scaleY", &scale.y);
 
+    ImGui::Text("rotation x");
+    ImGui::InputFloat("###rotationX", &rotation.x);
+
     this->position = position;
     this->scale = scale;
 }
@@ -77,4 +80,12 @@ void Transform::setPosition(sf::Vector2f position) {
 
 void Transform::setScale(sf::Vector2f scale) {
     this->scale = scale;
+}
+
+void Transform::setRotation(sf::Vector2f rotation) {
+    this->rotation = rotation;
+}
+
+void Transform::drawGizmos(sf::RenderWindow &window) {
+    
 }

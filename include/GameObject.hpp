@@ -9,6 +9,7 @@
 #include "components/Component.hpp"
 #include "components/SpriteRenderer.hpp"
 #include "components/Transform.hpp"
+#include "components/BoxCollider.hpp"
 
 class GameObject {
     private:
@@ -59,6 +60,8 @@ class GameObject {
     void setName(std::string newName);
 
     void update();
+
+    void drawGizmos(sf::RenderWindow &window);
 };
 
 

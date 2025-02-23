@@ -79,9 +79,6 @@ int main() {
         showSceneEditor();
         showInspector();
 
-        if(currentScene != nullptr)
-            currentScene->update();
-
         window.clear();
         currentScene->drawScene(window);
         ImGui::SFML::Render(window);

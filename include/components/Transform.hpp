@@ -6,7 +6,7 @@
 class Transform : public Component {
     private: 
     sf::Vector2f position, scale, rotation;
-    
+
     public:
 
     Transform(float x = 0, float y = 0);
@@ -31,6 +31,9 @@ class Transform : public Component {
 
     void setPosition(sf::Vector2f position) override;
     void setScale(sf::Vector2f scale) override;
+    void setRotation(sf::Vector2f rotation) override;
+
+    void drawGizmos(sf::RenderWindow &window) override;
 };
 
 #endif

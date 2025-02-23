@@ -27,17 +27,15 @@ GameObject* Scene::findGameObjectByName(std::string name) {
 
 void Scene::drawScene(sf::RenderWindow &window) {
     for (auto obj : gameObjects) {
+        obj->update();
         window.draw(obj->findComponent<SpriteRenderer>()->getSprite());
     }
-}
 
-void Scene::update() {
     for (auto obj : gameObjects) {
-        obj->update();
+        obj->drawGizmos(window);
     }
 }
 
-size_t Scene::getNumOfObjects()
-{
+size_t Scene::getNumOfObjects() {
     return gameObjects.size();
 }
