@@ -1,0 +1,2 @@
+/usr/bin/ar qc libimgui-file-dialog.a "CMakeFiles/imgui-file-dialog.dir/include/ImGuiFileDialog-0.6.6.1/ImGuiFileDialog.cpp.o"
+/usr/bin/ranlib libimgui-file-dialog.a
