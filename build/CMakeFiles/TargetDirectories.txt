@@ -1,8 +1,0 @@
-/home/micha-szandarowski/Dokumenty/Projekty/game_engine/build/CMakeFiles/MyCppApp.dir
-/home/micha-szandarowski/Dokumenty/Projekty/game_engine/build/CMakeFiles/imgui.dir
-/home/micha-szandarowski/Dokumenty/Projekty/game_engine/build/CMakeFiles/imgui-sfml.dir
-/home/micha-szandarowski/Dokumenty/Projekty/game_engine/build/CMakeFiles/imgui-file-dialog.dir
-/home/micha-szandarowski/Dokumenty/Projekty/game_engine/build/CMakeFiles/tests.dir
-/home/micha-szandarowski/Dokumenty/Projekty/game_engine/build/CMakeFiles/test.dir
-/home/micha-szandarowski/Dokumenty/Projekty/game_engine/build/CMakeFiles/edit_cache.dir
-/home/micha-szandarowski/Dokumenty/Projekty/game_engine/build/CMakeFiles/rebuild_cache.dir
