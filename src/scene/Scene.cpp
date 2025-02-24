@@ -5,10 +5,10 @@ bool Scene::addGameObject(std::shared_ptr<GameObject> obj) {
     return true;
 }
 
-GameObject* Scene::createEmptyObject() {
+std::shared_ptr<GameObject> Scene::createEmptyObject() {
     std::string name = "obj" + std::to_string(gameObjects.size());
     gameObjects.push_back(std::make_shared<GameObject>(name)); 
-    return gameObjects.back().get();
+    return gameObjects.back();
 }
 
 bool Scene::removeGameObject(std::shared_ptr<GameObject> obj) {
@@ -16,10 +16,10 @@ bool Scene::removeGameObject(std::shared_ptr<GameObject> obj) {
     return true;
 }
 
-GameObject* Scene::findGameObjectByName(std::string name) {
+std::shared_ptr<GameObject> Scene::findGameObjectByName(std::string name) {
     for (auto object : gameObjects)  {
         if (object->getName() == name) {
-            return object.get();
+            return object;
         }
     }
     return nullptr;

@@ -44,7 +44,33 @@ void QuadtreeNode::clear() {
 }
 
 void QuadtreeNode::insert(Collider *collider) {
+    if (children[0] != nullptr) {
+        int index = getIndex(collider);
 
+        if (index != -1) {
+            children[index]->insert(collider);
+            return;
+        }
+    }
+
+    colliders.push_back(collider);
+
+    if (colliders.size() > maxObjects && level < maxLevels) {
+        if (children[0] == nullptr) {
+            split();
+        }
+
+        int i = 0;
+        while (i < colliders.size()) {
+            int index = getIndex(colliders[i]);
+            if (index != -1) {
+                children[index]->insert(colliders[i]);
+                colliders.erase(colliders.begin() + i);
+            } else {
+                i++;
+            }
+        }
+    }
 }
 
 void QuadtreeNode::retrieve(std::vector<Collider *> &returnObjects, const sf::FloatRect &bounds) {

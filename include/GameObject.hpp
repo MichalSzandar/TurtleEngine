@@ -13,7 +13,7 @@
 
 class GameObject {
     private:
-    std::vector<std::unique_ptr<GameObject>> children;
+    std::vector<std::shared_ptr<GameObject>> children;
     std::string name;
 
     public:
@@ -40,7 +40,6 @@ class GameObject {
         return false;
     }
 
-
     template <typename T>
     T* findComponent() {
         for (const auto& comp : components) {
@@ -51,10 +50,11 @@ class GameObject {
         return nullptr;
     }
 
+    void addChild(std::shared_ptr<GameObject> child);
 
-    void addChild(std::unique_ptr<GameObject> child);
+    bool removeChild(std::shared_ptr<GameObject> child);
 
-    bool removeChild(GameObject *child);
+    std::shared_ptr<GameObject> findChildByName(std::string name);
 
     std::string getName();
     void setName(std::string newName);
@@ -63,6 +63,5 @@ class GameObject {
 
     void drawGizmos(sf::RenderWindow &window);
 };
-
 
 #endif

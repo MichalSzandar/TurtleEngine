@@ -4,22 +4,31 @@ GameObject::GameObject(std::string name) {
     this->name = name;
     addComponent<Transform>(0, 0);
     addComponent<SpriteRenderer>();
-    addComponent<BoxCollider>(0, 0, 0, 0);
 }
 
-void GameObject::addChild(std::unique_ptr<GameObject> child) {
-    children.push_back(std::move(child));
+void GameObject::addChild(std::shared_ptr<GameObject> child) {
+    children.push_back(child);
 }
 
-bool GameObject::removeChild(GameObject* child) {
+bool GameObject::removeChild(std::shared_ptr<GameObject> child) {
     auto it = std::find_if(children.begin(), children.end(),
-    [child](const std::unique_ptr<GameObject>& ptr) { return ptr.get() == child; });
+    [child](const std::shared_ptr<GameObject>& ptr) { return ptr == child; });
 
     if (it != children.end()) {
         children.erase(it);
         return true;
     }
     return false;
+}
+
+std::shared_ptr<GameObject> GameObject::findChildByName(std::string name) {
+    auto it = std::find_if(children.begin(), children.end(),
+    [name](const std::shared_ptr<GameObject>& ptr) { return ptr->getName() == name; });
+
+    if (it != children.end()) {
+        return *it;
+    }
+    return nullptr;
 }
 
 std::string GameObject::getName() {

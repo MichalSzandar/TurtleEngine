@@ -1,0 +1,2 @@
+/usr/bin/ar qc libimgui-sfml.a "CMakeFiles/imgui-sfml.dir/include/imgui-sfml/imgui-SFML.cpp.o"
+/usr/bin/ranlib libimgui-sfml.a

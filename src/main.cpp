@@ -16,7 +16,7 @@ std::vector<Scene*> scenes;
 
 Scene* currentScene = nullptr;
 
-GameObject* selectedGameObject = nullptr;
+std::shared_ptr<GameObject> selectedGameObject = nullptr;
 
 void createScene() {
     scenes.push_back(new Scene());
@@ -44,6 +44,23 @@ void showSceneEditor() {
     ImGui::End();
 }
 
+void showComponentMenu() {
+    if (selectedGameObject == nullptr) return;
+
+    if (ImGui::BeginPopup("AddComponent")) {
+        if (ImGui::MenuItem("Transform")) {
+            selectedGameObject->addComponent<Transform>(0, 0);
+        }
+        if (ImGui::MenuItem("SpriteRenderer")) {
+            selectedGameObject->addComponent<SpriteRenderer>();
+        }
+        if (ImGui::MenuItem("BoxCollider")) {
+            selectedGameObject->addComponent<BoxCollider>(0, 0, 0, 0);
+        }
+        ImGui::EndPopup();
+    }
+}
+
 void showInspector() {
     if (selectedGameObject == nullptr) return;
 
@@ -52,6 +69,12 @@ void showInspector() {
     for (auto& component : selectedGameObject->components) {
         component->displayMenu();
     }
+
+    if(ImGui::Button("Add Component")) {
+        ImGui::OpenPopup("AddComponent");
+    }
+
+    showComponentMenu();
 
     ImGui::End();
 }

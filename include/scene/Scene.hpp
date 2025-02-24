@@ -3,7 +3,7 @@
 
 #include <vector>
 #include "../GameObject.hpp"
-#include  <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp>
 #include "components/SpriteRenderer.hpp"
 
 class Scene {
@@ -15,9 +15,9 @@ class Scene {
 
     bool addGameObject(std::shared_ptr<GameObject> obj);
 
-    GameObject* createEmptyObject();
+    std::shared_ptr<GameObject> createEmptyObject();
 
-    GameObject* findGameObjectByName(std::string name);
+    std::shared_ptr<GameObject> findGameObjectByName(std::string name);
 
     void drawScene(sf::RenderWindow& window);
 
