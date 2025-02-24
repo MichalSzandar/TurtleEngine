@@ -105,14 +105,3 @@ void BoxCollider::setTranslateY(float translateY) {
     bounds.top = y + translateY;
 }
 
-void BoxCollider::onTriggerEnter() {
-    
-}
-
-void BoxCollider::onTriggerExit()  {
-
-}
-
-void BoxCollider::onTriggerStay() {
-
-}

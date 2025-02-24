@@ -11,10 +11,6 @@ class Collider : public Component {
         
         virtual void setTranslateX(float translateX) = 0;
         virtual void setTranslateY(float translateY) = 0;
-
-        virtual void onTriggerEnter() = 0;
-        virtual void onTriggerExit() = 0;
-        virtual void onTriggerStay() = 0;
 };
 
 #endif // COLLIDER_HPP

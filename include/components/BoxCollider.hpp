@@ -30,10 +30,6 @@ class BoxCollider : public Collider {
         
         void setTranslateX(float translateX) override;
         void setTranslateY(float translateY) override;
-
-        void onTriggerEnter() override;
-        void onTriggerExit() override;
-        void onTriggerStay() override;
 };
 
 #endif // BOXCOLLIDER_HPP

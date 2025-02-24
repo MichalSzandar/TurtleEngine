@@ -2,11 +2,13 @@
 #define QUADTREE_COLLISION_MANAGER_HPP
 
 #include "CollisionManager.hpp"
+#include "utils/QuadtreeNode.hpp"
+#include "components/Collider.hpp"
 #include <vector>
 
 class QuadTreeCollisionManager : public CollisionManager {
     private:
-    std::vector<Collider*> colliders;
+    QuadtreeNode* root;
 
     public:
     QuadTreeCollisionManager();
