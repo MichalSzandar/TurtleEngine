@@ -2,11 +2,12 @@
 #include <iostream>
 
 SphereCollider::SphereCollider() {
+    position = sf::Vector2f(0, 0);
+    scale = sf::Vector2f(1, 1);
+    rotation = sf::Vector2f(0, 0);
+    translate = sf::Vector2f(0, 0);
+
     radius = 0.0f;
-    translateX = 0.0f;
-    translateY = 0.0f;
-    x = 0.0f;
-    y = 0.0f;
     bounds = sf::CircleShape();
     bounds.setFillColor(sf::Color::Transparent);
     bounds.setOutlineColor(sf::Color::Red);
@@ -15,11 +16,12 @@ SphereCollider::SphereCollider() {
 }
 
 SphereCollider::SphereCollider(float radius) {
+    position = sf::Vector2f(0, 0);
+    scale = sf::Vector2f(1, 1);
+    rotation = sf::Vector2f(0, 0);
+    translate = sf::Vector2f(0, 0);
+
     this->radius = radius;
-    translateX = 0.0f;  
-    translateY = 0.0f;
-    x = 0.0f;
-    y = 0.0f;
     bounds = sf::CircleShape(radius);
     bounds.setFillColor(sf::Color::Transparent);
     bounds.setOutlineColor(sf::Color::Red);
@@ -35,27 +37,22 @@ void SphereCollider::displayMenu() {
     ImGui::Text("SphereCollider component");
 
     ImGui::Text("translate x");
-    ImGui::InputFloat("###x_spherecollider", &translateX);
+    ImGui::InputFloat("###x_spherecollider", &translate.x);
 
     ImGui::Text("translate y");
-    ImGui::InputFloat("###y_spherecollider", &translateY);
+    ImGui::InputFloat("###y_spherecollider", &translate.y);
 
     ImGui::Text("radius");
     ImGui::InputFloat("###radius_spherecollider", &radius);
 
     bounds.setRadius(radius);
-    bounds.setPosition(x + translateX, y + translateY);
+    bounds.setPosition(position.x + translate.x, position.y + translate.y);
     bounds.setOrigin(radius, radius);
 }
 
-sf::Vector2f SphereCollider::getPosition() {
-    return bounds.getPosition();
-}
-
 void SphereCollider::setPosition(sf::Vector2f position) {
-    x = position.x;
-    y = position.y;
-    bounds.setPosition(sf::Vector2f(x + translateX, y + translateY));
+    this->position = position;
+    bounds.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
 void SphereCollider::setScale(sf::Vector2f scale) {
@@ -66,18 +63,14 @@ void SphereCollider::setRotation(sf::Vector2f rotation) {
     // Do nothing
 }
 
-void SphereCollider::drawGizmos(sf::RenderWindow &window) {
+void SphereCollider::setTranslate(sf::Vector2f translate) {
+    this->translate = translate;
+    bounds.setPosition(position.x + translate.x, position.y + translate.y);
+}
+
+void SphereCollider::drawGizmos(sf::RenderWindow &window)
+{
     window.draw(bounds);
-}
-
-void SphereCollider::setTranslateX(float translateX) {
-    this->translateX = translateX;
-    bounds.setPosition(x + translateX, bounds.getPosition().y);
-}
-
-void SphereCollider::setTranslateY(float translateY) {
-    this->translateY = translateY;
-    bounds.setPosition(bounds.getPosition().x, y + translateY);
 }
 
 sf::CircleShape SphereCollider::getBounds() const {
@@ -93,7 +86,7 @@ void SphereCollider::setRadius(float radius) {
     this->radius = radius;
     bounds.setRadius(radius);
     bounds.setOrigin(radius, radius);
-    bounds.setPosition(x + translateX, y + translateY);
+    bounds.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
 bool SphereCollider::intersectsWith(BoxCollider *collider)

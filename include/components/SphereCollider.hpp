@@ -18,16 +18,14 @@ class SphereCollider : public Collider {
 
         void displayMenu() override;
 
-        sf::Vector2f getPosition() override;
-
+        // Transformable --------------------------------
         void setPosition(sf::Vector2f position) override;
         void setScale(sf::Vector2f scale) override;
         void setRotation(sf::Vector2f rotation) override;
+        void setTranslate(sf::Vector2f translate) override;
+        //-----------------------------------------------
 
         void drawGizmos(sf::RenderWindow &window) override;
-
-        void setTranslateX(float translateX) override;
-        void setTranslateY(float translateY) override;
 
         sf::CircleShape getBounds() const;
         float getRadius() const;

@@ -1,8 +1,11 @@
 #include "components/SpriteRenderer.hpp"
 
 SpriteRenderer::SpriteRenderer(const std::string &texturePath) {
-    translateX   = 0;
-    translateY   = 0;
+    position = sf::Vector2f(0, 0);
+    scale = sf::Vector2f(1, 1);
+    rotation = sf::Vector2f(0, 0);
+    translate = sf::Vector2f(0, 0);
+    
     if (!texture.loadFromFile(texturePath)) {
         std::cerr << "failed to load texture: " << texturePath << std::endl;
     }
@@ -48,22 +51,23 @@ void SpriteRenderer::displayMenu() {
 }
 
 void SpriteRenderer::setPosition(sf::Vector2f position) {
-    sprite.setPosition(position.x + translateX, position.y + translateY);
+    this->position = position;
+    sprite.setPosition(position.x + translate.x, position.y + translate.y);
 }
+
 void SpriteRenderer::setScale(sf::Vector2f scale) {
+    this->scale = scale;
     sprite.setScale(scale);
 }
 
 void SpriteRenderer::setRotation(sf::Vector2f rotation) {
+    this->rotation = rotation;
     sprite.setRotation(rotation.x);
 }
 
-void SpriteRenderer::setTranslateX(float translateX) {
-    this->translateX = translateX;
-}
-
-void SpriteRenderer::setTranslateY(float translateY) {
-    this->translateY = translateY;
+void SpriteRenderer::setTranslate(sf::Vector2f translate) {
+    this->translate = translate;
+    sprite.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
 void SpriteRenderer::drawGizmos(sf::RenderWindow &window) {

@@ -1,16 +1,15 @@
 #ifndef SPRITERENDERER_HPP
 #define SPRITERENDERER_HPP
 
-#include "Component.hpp"
+#include "Transformable.hpp"
 #include <SFML/Graphics.hpp>
 #include <string>
 #include <iostream>
 
-class SpriteRenderer : public Component {
+class SpriteRenderer : public Transformable {
     private:
         sf::Sprite sprite;
         sf::Texture texture;
-        float x, y, translateX, translateY;
 
     public:
         SpriteRenderer(const std::string& texturePath);
@@ -24,12 +23,12 @@ class SpriteRenderer : public Component {
 
         void displayMenu() override;
 
+        // Transformable --------------------------------
         void setPosition(sf::Vector2f position) override;
         void setScale(sf::Vector2f scale) override;
         void setRotation(sf::Vector2f rotation) override;
-
-        void setTranslateX(float translateX);
-        void setTranslateY(float translateY);
+        void setTranslate(sf::Vector2f translate) override;
+        //-----------------------------------------------
 
         void drawGizmos(sf::RenderWindow &window) override;
 };
