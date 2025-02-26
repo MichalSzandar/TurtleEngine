@@ -8,11 +8,13 @@
 
 class QuadTreeCollisionManager : public CollisionManager {
     private:
-    QuadtreeNode* root;
+    QuadtreeNode root;
+    std::vector<Collider*> colliders;
 
     public:
-    QuadTreeCollisionManager();
-    ~QuadTreeCollisionManager();
+    QuadTreeCollisionManager() = default;
+    QuadTreeCollisionManager(float width, float height, int maxObjects, int maxLevels);
+    ~QuadTreeCollisionManager() = default;
 
     void checkCollisions() override;
     void addCollider(Collider* collider) override;

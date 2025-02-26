@@ -48,7 +48,11 @@ void BoxCollider::displayMenu()
     bounds.top = y + translateY;
 }
 
-void BoxCollider::setPosition(sf::Vector2f position) {
+sf::Vector2f BoxCollider::getPosition() {
+    return bounds.getPosition();
+}
+void BoxCollider::setPosition(sf::Vector2f position)
+{
     x = position.x;
     y = position.y;
     bounds.left = x + translateX;
@@ -105,3 +109,29 @@ void BoxCollider::setTranslateY(float translateY) {
     bounds.top = y + translateY;
 }
 
+bool BoxCollider::intersectsWith(BoxCollider *collider) {
+    if(bounds.intersects(collider->getBounds())) {
+        return true;
+    }
+    return false;
+}
+
+bool BoxCollider::intersectsWith(SphereCollider *collider) {
+    sf::CircleShape circle = collider->getBounds();
+    if(bounds.contains(circle.getPosition())) {
+        return true;
+    }
+    if(Maths::distancePointToSegment(circle.getPosition(), sf::Vector2f(bounds.left, bounds.top), sf::Vector2f(bounds.left + bounds.width, bounds.top)) <= collider->getRadius()) {
+        return true;
+    }
+    if(Maths::distancePointToSegment(circle.getPosition(), sf::Vector2f(bounds.left, bounds.top), sf::Vector2f(bounds.left, bounds.top + bounds.height)) <= collider->getRadius()) {
+        return true;
+    }
+    if(Maths::distancePointToSegment(circle.getPosition(), sf::Vector2f(bounds.left + bounds.width, bounds.top), sf::Vector2f(bounds.left + bounds.width, bounds.top + bounds.height)) <= collider->getRadius()) {
+        return true;
+    }
+    if(Maths::distancePointToSegment(circle.getPosition(), sf::Vector2f(bounds.left, bounds.top + bounds.height), sf::Vector2f(bounds.left + bounds.width, bounds.top + bounds.height)) <= collider->getRadius()) {
+        return true;
+    }
+    return false;
+}

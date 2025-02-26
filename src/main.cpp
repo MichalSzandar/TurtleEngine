@@ -3,6 +3,12 @@
 #include <imgui-sfml/imgui-SFML.h>
 #include <scene/Scene.hpp>
 #include <ImGuiFileDialog-0.6.6.1/ImGuiFileDialog.h>
+#include <components/Transform.hpp>
+#include <components/SpriteRenderer.hpp>
+#include <components/BoxCollider.hpp>
+#include <components/SphereCollider.hpp>
+#include "collision_managers/CollisionManager.hpp"
+#include "collision_managers/QuadTreeCollisionManager.hpp"
 #include <vector>
 
 //ticks away the moments that make up a dull day
@@ -17,6 +23,8 @@ std::vector<Scene*> scenes;
 Scene* currentScene = nullptr;
 
 std::shared_ptr<GameObject> selectedGameObject = nullptr;
+
+QuadTreeCollisionManager collisionManager;
 
 void createScene() {
     scenes.push_back(new Scene());
@@ -56,6 +64,11 @@ void showComponentMenu() {
         }
         if (ImGui::MenuItem("BoxCollider")) {
             selectedGameObject->addComponent<BoxCollider>(0, 0, 0, 0);
+            collisionManager.addCollider(selectedGameObject->findComponent<BoxCollider>());
+        }
+        if(ImGui::MenuItem("SphereCollider")) {
+            selectedGameObject->addComponent<SphereCollider>(0);
+            collisionManager.addCollider(selectedGameObject->findComponent<SphereCollider>());
         }
         ImGui::EndPopup();
     }
@@ -86,6 +99,8 @@ int main() {
     // Initialize ImGui
     ImGui::SFML::Init(window);
 
+    collisionManager = QuadTreeCollisionManager(800, 600, 5, 5);
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
@@ -102,6 +117,8 @@ int main() {
         showSceneEditor();
         showInspector();
 
+        collisionManager.checkCollisions();
+        
         window.clear();
         currentScene->drawScene(window);
         ImGui::SFML::Render(window);

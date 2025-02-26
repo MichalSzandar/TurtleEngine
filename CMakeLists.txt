@@ -64,7 +64,10 @@ set(TEST_SRC_FILES
     ${SRC_DIR}/components/Transform.cpp
     ${SRC_DIR}/components/SpriteRenderer.cpp
     ${SRC_DIR}/components/BoxCollider.cpp
+    ${SRC_DIR}/components/Collider.cpp
+    ${SRC_DIR}/components/SphereCollider.cpp
     ${SRC_DIR}/scene/Scene.cpp
+    ${SRC_DIR}/utils/Maths.cpp
     # Add other necessary source files here
 )
 
