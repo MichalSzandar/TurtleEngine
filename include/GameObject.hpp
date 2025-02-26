@@ -9,6 +9,7 @@
 #include "components/Component.hpp"
 #include "components/SpriteRenderer.hpp"
 #include "components/Transform.hpp"
+#include "components/Transformable.hpp"
 #include "components/BoxCollider.hpp"
 
 class GameObject {

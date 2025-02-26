@@ -4,6 +4,7 @@ Transform::Transform(float x, float y) {
     scale = sf::Vector2f(1.0f, 1.0f);
     position = sf::Vector2f(x, y);
     rotation = sf::Vector2f(0.0f, 0.0f);
+    translate = sf::Vector2f(0.0f, 0.0f);
 }
 
 std::type_index Transform::getType() const {
@@ -33,47 +34,6 @@ void Transform::displayMenu() {
     this->scale = scale;
 }
 
-float Transform::getX()
-{
-    return position.x;
-}
-
-void Transform::setX(float x) {
-    position.x = x;
-}
-
-float Transform::getY() {
-    return position.y;
-}
-
-void Transform::setY(float y) {
-    this->position.y = y;
-}
-
-float Transform::getScaleX() {
-    return scale.x;
-}
-
-void Transform::setScaleX(float scaleX) {
-    scale.x = scaleX;
-}
-
-float Transform::getScaleY() {
-    return scale.y;
-}
-
-void Transform::setScaleY(float scaleY) {
-    scale.y = scaleY;
-}
-
-float Transform::getRotationX() {
-    return rotation.x;
-}
-
-void Transform::setRotationX(float rotateX) {
-    rotation.x = rotateX;
-}
-
 void Transform::setPosition(sf::Vector2f position) {
     this->position = position;
 }
@@ -86,6 +46,10 @@ void Transform::setRotation(sf::Vector2f rotation) {
     this->rotation = rotation;
 }
 
-void Transform::drawGizmos(sf::RenderWindow &window) {
-    
+void Transform::setTranslate(sf::Vector2f translate) {
+    this->translate = translate;
+}
+
+void Transform::drawGizmos(sf::RenderWindow &window)
+{
 }

@@ -6,10 +6,10 @@
 #include <SFML/Graphics.hpp>
 #include <typeindex>
 
-class BoxCollider : public Collider {
+class BoxCollider : public Collider{
     private:
         sf::FloatRect bounds;
-        float width, height, rotation;
+        float width, height;
 
     public:
         BoxCollider();
@@ -20,20 +20,18 @@ class BoxCollider : public Collider {
 
         void displayMenu() override;
 
-        sf::Vector2f getPosition() override;
-
+        // Transformable --------------------------------
         void setPosition(sf::Vector2f position) override;
         void setScale(sf::Vector2f scale) override;
         void setRotation(sf::Vector2f rotation) override;
+        void setTranslate(sf::Vector2f translate) override;
+        //-----------------------------------------------
 
         sf::FloatRect getBounds() const;
         void setBounds(float x, float y, float width, float height);
         void setBounds(sf::FloatRect bounds);
 
         void drawGizmos(sf::RenderWindow &window) override;
-        
-        void setTranslateX(float translateX) override;
-        void setTranslateY(float translateY) override;
 
         bool intersectsWith(BoxCollider *collider) override;
         bool intersectsWith(SphereCollider *collider) override;

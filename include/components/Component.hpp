@@ -16,10 +16,6 @@ class Component {
         
         virtual void displayMenu() = 0;
 
-        virtual void setPosition(sf::Vector2f position) = 0;
-        virtual void setScale(sf::Vector2f scale) = 0;
-        virtual void setRotation(sf::Vector2f rotation) = 0;
-
         virtual void drawGizmos(sf::RenderWindow &window) = 0;
 };
 

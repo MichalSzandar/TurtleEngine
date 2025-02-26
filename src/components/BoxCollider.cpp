@@ -1,28 +1,27 @@
 #include "components/BoxCollider.hpp"
 
 BoxCollider::BoxCollider() {
-    rotation = 0;
-    translateX = 0; 
-    translateY = 0;
-    x = 0;
-    y = 0;
+    position = sf::Vector2f(0, 0);
+    scale = sf::Vector2f(1, 1);
+    rotation = sf::Vector2f(0, 0);
+    translate = sf::Vector2f(0, 0);
+
     width = 0;
     height = 0;
-    bounds = sf::FloatRect(x, y, width, height);
+    bounds = sf::FloatRect(0, 0, width, height);
 }
 
 BoxCollider::BoxCollider(float x, float y, float width, float height) {
-    translateX = 0;
-    translateY = 0;
-    rotation = 0;
-    this->x = x;
-    this->y = y;    
+    position = sf::Vector2f(x, y);
+    scale = sf::Vector2f(1, 1);
+    rotation = sf::Vector2f(0, 0);
+    translate = sf::Vector2f(0, 0);
     this->width = width;
     this->height = height;
     bounds = sf::FloatRect(x, y, width, height);
 }
 
-std::type_index BoxCollider::getType() const{
+std::type_index BoxCollider::getType() const {
     return typeid(BoxCollider);
 }
 
@@ -31,10 +30,10 @@ void BoxCollider::displayMenu()
     ImGui::Text("BoxCollider component");
 
     ImGui::Text("translate x");
-    ImGui::InputFloat("###x_collider", &translateX);
+    ImGui::InputFloat("###x_collider", &translate.x);
 
     ImGui::Text("translate y");
-    ImGui::InputFloat("###y_collider", &translateY);
+    ImGui::InputFloat("###y_collider", &translate.y);
 
     ImGui::Text("width");
     ImGui::InputFloat("###width_collider", &width);
@@ -44,19 +43,14 @@ void BoxCollider::displayMenu()
 
     bounds.height = height;
     bounds.width = width;
-    bounds.left = x + translateX;
-    bounds.top = y + translateY;
+    bounds.left = position.x + translate.x;
+    bounds.top = position.y + translate.y;
 }
 
-sf::Vector2f BoxCollider::getPosition() {
-    return bounds.getPosition();
-}
-void BoxCollider::setPosition(sf::Vector2f position)
-{
-    x = position.x;
-    y = position.y;
-    bounds.left = x + translateX;
-    bounds.top = y + translateY;
+void BoxCollider::setPosition(sf::Vector2f position) {
+    this->position = position;
+    bounds.left = position.x + translate.x;
+    bounds.top = position.y + translate.y;
 }
 
 void BoxCollider::setScale(sf::Vector2f scale) {
@@ -65,17 +59,22 @@ void BoxCollider::setScale(sf::Vector2f scale) {
 }
 
 void BoxCollider::setRotation(sf::Vector2f rotation) {
-    this->rotation = rotation.x;
+    this->rotation = rotation;
 
-    // Calculate the rotated bounding box
     sf::Transform transform;
-    transform.rotate(this->rotation, x + translateX + width / 2, y + translateY + height / 2);
+    transform.rotate(this->rotation.x, position.x + translate.x + width / 2, position.y + translate.y + height / 2);
 
     sf::FloatRect rotatedBounds = transform.transformRect(bounds);
     bounds.left = rotatedBounds.left;
     bounds.top = rotatedBounds.top;
     bounds.width = rotatedBounds.width;
     bounds.height = rotatedBounds.height;
+}
+
+void BoxCollider::setTranslate(sf::Vector2f translate) {
+    this->translate = translate;
+    bounds.left = position.x + translate.x;
+    bounds.top = position.y + translate.y;
 }
 
 sf::FloatRect BoxCollider::getBounds() const {
@@ -97,16 +96,6 @@ void BoxCollider::drawGizmos(sf::RenderWindow &window) {
     rect.setOutlineColor(sf::Color::Red);
     rect.setOutlineThickness(1.0f);
     window.draw(rect);
-}
-
-void BoxCollider::setTranslateX(float translateX) {
-    this->translateX = translateX;
-    bounds.left = x + translateX;
-}
-
-void BoxCollider::setTranslateY(float translateY) {
-    this->translateY = translateY;
-    bounds.top = y + translateY;
 }
 
 bool BoxCollider::intersectsWith(BoxCollider *collider) {

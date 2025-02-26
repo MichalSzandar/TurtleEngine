@@ -42,9 +42,11 @@ void GameObject::setName(std::string newName) {
 void GameObject::update() {
     Transform* transform = findComponent<Transform>();
     for (auto &component : components) {
-        component->setPosition(sf::Vector2f(transform->getX(), transform->getY()));
-        component->setScale(sf::Vector2f(transform->getScaleX(), transform->getScaleY()));
-        component->setRotation(sf::Vector2f(transform->getRotationX(), 0));
+        if(Transformable* transformable = dynamic_cast<Transformable*>(component.get())){
+            transformable->setPosition(transform->getPosition());
+            transformable->setScale(transform->getScale());
+            transformable->setRotation(transform->getRotation());
+        }
     }
 }
 
