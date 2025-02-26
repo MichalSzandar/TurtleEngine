@@ -9,7 +9,7 @@ class QuadtreeNode {
     private:
     sf::FloatRect bounds;
     std::vector<Collider*> colliders;
-    QuadtreeNode* children[4];
+    std::vector<QuadtreeNode*> children;
     int maxObjects;
     int maxLevels;
     int level; 
@@ -18,11 +18,12 @@ class QuadtreeNode {
     int getIndex(Collider* collider);
 
     public:
+    QuadtreeNode() = default;
     QuadtreeNode(int level, sf::FloatRect bounds, int maxObjects, int maxLevels);
     ~QuadtreeNode();
     void clear();
     void insert(Collider* collider);
-    void retrieve(std::vector<Collider*>& returnObjects, const sf::FloatRect& bounds);
+    void retrieve(std::vector<Collider*>& returnObjects, Collider* collider);
 };
 
 #endif // QUADTREENODE_HPP

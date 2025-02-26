@@ -1,8 +1,8 @@
 #include "utils/QuadtreeNode.hpp"
 
 void QuadtreeNode::split() {
-    float subWidth = bounds.width / 2;
-    float subHeight = bounds.height / 2;
+    float subWidth = bounds.width / 2.0f;
+    float subHeight = bounds.height / 2.0f;
     float x = bounds.left;
     float y = bounds.top;
 
@@ -13,7 +13,28 @@ void QuadtreeNode::split() {
 }
 
 int QuadtreeNode::getIndex(Collider *collider) {
-    return 0;
+    int index = -1;
+    float verticalMidpoint = bounds.left + bounds.width / 2.0f;
+    float horizontalMidpoint = bounds.top + bounds.height / 2.0f;
+
+    bool topQuadrant = collider->getPosition().y < horizontalMidpoint;
+    bool bottomQuadrant = collider->getPosition().y >= horizontalMidpoint;
+
+    if (collider->getPosition().x < verticalMidpoint) {
+        if (topQuadrant) {
+            index = 1;
+        } else if (bottomQuadrant) {
+            index = 2;
+        }
+    } else if (collider->getPosition().x >= verticalMidpoint) {
+        if (topQuadrant) {
+            index = 0;
+        } else if (bottomQuadrant) {
+            index = 3;
+        }
+    }
+
+    return index;
 }
 
 QuadtreeNode::QuadtreeNode(int level, sf::FloatRect bounds, int maxObjects, int maxLevels) {
@@ -21,10 +42,7 @@ QuadtreeNode::QuadtreeNode(int level, sf::FloatRect bounds, int maxObjects, int 
     this->bounds = bounds;
     this->maxObjects = maxObjects;
     this->maxLevels = maxLevels;
-    children[0] = nullptr;
-    children[1] = nullptr;
-    children[2] = nullptr;
-    children[3] = nullptr;
+    children.resize(4, nullptr);
 }
 
 QuadtreeNode::~QuadtreeNode() {
@@ -34,13 +52,13 @@ QuadtreeNode::~QuadtreeNode() {
 void QuadtreeNode::clear() {
     colliders.clear();
 
-    for (int i = 0; i < 4; i++) {
-        if (children[i] != nullptr) {
-            children[i]->clear();
-            delete children[i];
-            children[i] = nullptr;
+    for(auto child : children) {
+        if(child != nullptr) {
+            child->clear();
+            delete child;
+            child = nullptr;
         }
-    }
+    }   
 }
 
 void QuadtreeNode::insert(Collider *collider) {
@@ -60,19 +78,24 @@ void QuadtreeNode::insert(Collider *collider) {
             split();
         }
 
-        int i = 0;
-        while (i < colliders.size()) {
-            int index = getIndex(colliders[i]);
+        auto it = colliders.begin();
+        while (it != colliders.end()) {
+            int index = getIndex(*it);
             if (index != -1) {
-                children[index]->insert(colliders[i]);
-                colliders.erase(colliders.begin() + i);
+                children[index]->insert(*it);
+                it = colliders.erase(it);
             } else {
-                i++;
+                ++it;
             }
         }
     }
 }
 
-void QuadtreeNode::retrieve(std::vector<Collider *> &returnObjects, const sf::FloatRect &bounds) {
-    
+void QuadtreeNode::retrieve(std::vector<Collider *> &returnObjects, Collider* collider) {
+    int index = getIndex(collider);
+    if (index != -1 && children[0] != nullptr) {
+        children[index]->retrieve(returnObjects, collider);
+    }
+
+    returnObjects.insert(returnObjects.end(), colliders.begin(), colliders.end());
 }
