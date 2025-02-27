@@ -19,12 +19,11 @@ TEST_CASE("GameObject can add and retrieve components") {
 
     obj.addComponent<BoxCollider>(100.0f, 200.0f, 100.0f, 200.0f);
     BoxCollider* collider = obj.findComponent<BoxCollider>();
-    sf::FloatRect bounds = collider->getBounds();
+    sf::RectangleShape bounds = collider->getBounds();
     REQUIRE(collider != nullptr);
-    REQUIRE(bounds.top == 200.0f);
-    REQUIRE(bounds.left == 100.0f);
-    REQUIRE(bounds.width == 100.0f);
-    REQUIRE(bounds.height == 200.0f);
+    REQUIRE(bounds.getPosition().x == 100.0f);
+    REQUIRE(bounds.getPosition().y == 200.0f);
+    REQUIRE(bounds.getSize() == sf::Vector2f(100.0f, 200.0f));
 }
 
 TEST_CASE("GameObject can remove components") {
@@ -50,12 +49,11 @@ TEST_CASE("GameObject can update components") {
     Transform* transform = obj.findComponent<Transform>();
     SpriteRenderer* renderer = obj.findComponent<SpriteRenderer>();
     BoxCollider* collider = obj.findComponent<BoxCollider>();
-    sf::FloatRect bounds = collider->getBounds();
+    sf::RectangleShape bounds = collider->getBounds();
     REQUIRE(renderer->getSprite().getPosition() == transform->getPosition());
     REQUIRE(renderer->getSprite().getScale() == transform->getScale());
     REQUIRE(renderer->getSprite().getRotation() == transform->getRotation().x);
-    REQUIRE(bounds.top == transform->getPosition().y);
-    REQUIRE(bounds.left == transform->getPosition().x);
+    REQUIRE(bounds.getPosition() == transform->getPosition());
 }
 
 TEST_CASE("GameObject can add and remove children") {

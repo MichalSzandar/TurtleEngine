@@ -8,7 +8,12 @@ BoxCollider::BoxCollider() {
 
     width = 0;
     height = 0;
-    bounds = sf::FloatRect(0, 0, width, height);
+
+    bounds = sf::RectangleShape();
+    bounds.setSize(sf::Vector2f(width, height));
+    bounds.setFillColor(sf::Color::Transparent);
+    bounds.setOutlineColor(sf::Color::Red);
+    bounds.setOutlineThickness(1.0f);
 }
 
 BoxCollider::BoxCollider(float x, float y, float width, float height) {
@@ -18,7 +23,14 @@ BoxCollider::BoxCollider(float x, float y, float width, float height) {
     translate = sf::Vector2f(0, 0);
     this->width = width;
     this->height = height;
-    bounds = sf::FloatRect(x, y, width, height);
+
+    bounds = sf::RectangleShape();
+    bounds.setSize(sf::Vector2f(width, height));
+    bounds.setOrigin(width / 2, height / 2);
+    bounds.setFillColor(sf::Color::Transparent);
+    bounds.setOutlineColor(sf::Color::Red);
+    bounds.setOutlineThickness(1.0f);
+    bounds.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
 std::type_index BoxCollider::getType() const {
@@ -41,86 +53,106 @@ void BoxCollider::displayMenu()
     ImGui::Text("height");
     ImGui::InputFloat("###height_collider", &height);
 
-    bounds.height = height;
-    bounds.width = width;
-    bounds.left = position.x + translate.x;
-    bounds.top = position.y + translate.y;
+    bounds.setSize(sf::Vector2f(width, height));
+    bounds.setOrigin(width / 2, height / 2);
+    bounds.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
 void BoxCollider::setPosition(sf::Vector2f position) {
     this->position = position;
-    bounds.left = position.x + translate.x;
-    bounds.top = position.y + translate.y;
+    bounds.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
 void BoxCollider::setScale(sf::Vector2f scale) {
-    bounds.width = width * scale.x;
-    bounds.height = height * scale.y;
+    bounds.setScale(scale);
+    this->scale = scale;
 }
 
 void BoxCollider::setRotation(sf::Vector2f rotation) {
     this->rotation = rotation;
-
-    sf::Transform transform;
-    transform.rotate(this->rotation.x, position.x + translate.x + width / 2, position.y + translate.y + height / 2);
-
-    sf::FloatRect rotatedBounds = transform.transformRect(bounds);
-    bounds.left = rotatedBounds.left;
-    bounds.top = rotatedBounds.top;
-    bounds.width = rotatedBounds.width;
-    bounds.height = rotatedBounds.height;
+    bounds.setRotation(rotation.x);
 }
 
 void BoxCollider::setTranslate(sf::Vector2f translate) {
     this->translate = translate;
-    bounds.left = position.x + translate.x;
-    bounds.top = position.y + translate.y;
+    bounds.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
-sf::FloatRect BoxCollider::getBounds() const {
+sf::RectangleShape BoxCollider::getBounds() const {
     return bounds;
 }
 
 void BoxCollider::setBounds(float x, float y, float width, float height) {
-    bounds = sf::FloatRect(x, y, width, height);
+    bounds = sf::RectangleShape(sf::Vector2f(width, height));
+    bounds.setPosition(x, y);
+    this->width = width;
+    this->height = height; 
+    this->position = sf::Vector2f(x, y);
 }
 
 void BoxCollider::setBounds(sf::FloatRect bounds) {
-    this->bounds = bounds;
+    this->bounds = sf::RectangleShape(sf::Vector2f(bounds.width, bounds.height));
+    this->bounds.setPosition(bounds.left, bounds.top);
+    this->width = bounds.width;
+    this->height = bounds.height;
+    this->position = sf::Vector2f(bounds.left, bounds.top);
 }
 
-void BoxCollider::drawGizmos(sf::RenderWindow &window) {
-    sf::RectangleShape rect(sf::Vector2f(bounds.width, bounds.height));
-    rect.setPosition(bounds.left, bounds.top);
-    rect.setFillColor(sf::Color::Transparent);
-    rect.setOutlineColor(sf::Color::Red);
-    rect.setOutlineThickness(1.0f);
-    window.draw(rect);
+std::vector<sf::Vector2f> BoxCollider::getVertices() const{
+    std::vector<sf::Vector2f> corners;
+    sf::Transform transform = bounds.getTransform();
+
+    for(short i = 0; i < 4; i++) {
+        corners.push_back(transform.transformPoint(bounds.getPoint(i)));
+    }
+
+    return corners;
+}
+
+void BoxCollider::drawGizmos(sf::RenderWindow &window)
+{
+    window.draw(bounds);
 }
 
 bool BoxCollider::intersectsWith(BoxCollider *collider) {
-    if(bounds.intersects(collider->getBounds())) {
-        return true;
+    std::vector<sf::Vector2f> vertices1 = getVertices();
+    std::vector<sf::Vector2f> vertices2 = collider->getVertices();
+
+    std::vector<sf::Vector2f> axes = {
+        Maths::perpendicular(vertices1[0], vertices1[1]),
+        Maths::perpendicular(vertices1[0], vertices1[3]),
+        Maths::perpendicular(vertices2[1], vertices2[2]),
+        Maths::perpendicular(vertices2[2], vertices2[3])
+    };
+
+    for(auto axis : axes) {
+        float minA, maxA, minB, maxB;
+        Maths::projectOnAxis(vertices1, axis, minA, maxA);
+        Maths::projectOnAxis(vertices2, axis, minB, maxB);
+
+        if(!Maths::isOverlapping(minA, maxA, minB, maxB)) {
+            return false;
+        }
     }
-    return false;
+
+    return true;
 }
 
 bool BoxCollider::intersectsWith(SphereCollider *collider) {
     sf::CircleShape circle = collider->getBounds();
-    if(bounds.contains(circle.getPosition())) {
+
+    if(Maths::distancePointToSegment(circle.getPosition(), bounds.getPoint(0), bounds.getPoint(1)) <= collider->getRadius()) {
         return true;
     }
-    if(Maths::distancePointToSegment(circle.getPosition(), sf::Vector2f(bounds.left, bounds.top), sf::Vector2f(bounds.left + bounds.width, bounds.top)) <= collider->getRadius()) {
+    if(Maths::distancePointToSegment(circle.getPosition(), bounds.getPoint(0), bounds.getPoint(3)) <= collider->getRadius()) {
         return true;
     }
-    if(Maths::distancePointToSegment(circle.getPosition(), sf::Vector2f(bounds.left, bounds.top), sf::Vector2f(bounds.left, bounds.top + bounds.height)) <= collider->getRadius()) {
+    if(Maths::distancePointToSegment(circle.getPosition(), bounds.getPoint(1), bounds.getPoint(2)) <= collider->getRadius()) {
         return true;
     }
-    if(Maths::distancePointToSegment(circle.getPosition(), sf::Vector2f(bounds.left + bounds.width, bounds.top), sf::Vector2f(bounds.left + bounds.width, bounds.top + bounds.height)) <= collider->getRadius()) {
+    if(Maths::distancePointToSegment(circle.getPosition(), bounds.getPoint(2), bounds.getPoint(3)) <= collider->getRadius()) {
         return true;
     }
-    if(Maths::distancePointToSegment(circle.getPosition(), sf::Vector2f(bounds.left, bounds.top + bounds.height), sf::Vector2f(bounds.left + bounds.width, bounds.top + bounds.height)) <= collider->getRadius()) {
-        return true;
-    }
+
     return false;
 }
