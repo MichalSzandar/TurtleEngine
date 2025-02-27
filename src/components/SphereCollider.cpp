@@ -57,10 +57,12 @@ void SphereCollider::setPosition(sf::Vector2f position) {
 
 void SphereCollider::setScale(sf::Vector2f scale) {
     bounds.setScale(scale);
+    this->scale = scale;
 }
 
 void SphereCollider::setRotation(sf::Vector2f rotation) {
-    // Do nothing
+    bounds.setRotation(rotation.x);
+    this->rotation = rotation;
 }
 
 void SphereCollider::setTranslate(sf::Vector2f translate) {
@@ -68,8 +70,7 @@ void SphereCollider::setTranslate(sf::Vector2f translate) {
     bounds.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
-void SphereCollider::drawGizmos(sf::RenderWindow &window)
-{
+void SphereCollider::drawGizmos(sf::RenderWindow &window) {
     window.draw(bounds);
 }
 
@@ -77,8 +78,7 @@ sf::CircleShape SphereCollider::getBounds() const {
     return bounds;
 }
 
-float SphereCollider::getRadius() const
-{
+float SphereCollider::getRadius() const {
     return bounds.getRadius();
 }
 
@@ -89,22 +89,18 @@ void SphereCollider::setRadius(float radius) {
     bounds.setPosition(position.x + translate.x, position.y + translate.y);
 }
 
-bool SphereCollider::intersectsWith(BoxCollider *collider)
-{
-    sf::FloatRect box = collider->getBounds();
-    if(box.contains(bounds.getPosition())) {
+bool SphereCollider::intersectsWith(BoxCollider *collider) {
+    sf::RectangleShape box = collider->getBounds();
+    if(Maths::distancePointToSegment(bounds.getPosition(), box.getPoint(0), box.getPoint(1)) <= radius) {
         return true;
     }
-    if(Maths::distancePointToSegment(bounds.getPosition(), sf::Vector2f(box.left, box.top), sf::Vector2f(box.left + box.width, box.top)) <= radius) {
+    if(Maths::distancePointToSegment(bounds.getPosition(), box.getPoint(1), box.getPoint(2)) <= radius) {
         return true;
     }
-    if(Maths::distancePointToSegment(bounds.getPosition(), sf::Vector2f(box.left, box.top), sf::Vector2f(box.left, box.top + box.height)) <= radius) {
+    if(Maths::distancePointToSegment(bounds.getPosition(), box.getPoint(2), box.getPoint(3)) <= radius) {
         return true;
     }
-    if(Maths::distancePointToSegment(bounds.getPosition(), sf::Vector2f(box.left + box.width, box.top), sf::Vector2f(box.left + box.width, box.top + box.height)) <= radius) {
-        return true;
-    }
-    if(Maths::distancePointToSegment(bounds.getPosition(), sf::Vector2f(box.left, box.top + box.height), sf::Vector2f(box.left + box.width, box.top + box.height)) <= radius) {
+    if(Maths::distancePointToSegment(bounds.getPosition(), box.getPoint(0), box.getPoint(3)) <= radius) {
         return true;
     }
     return false;

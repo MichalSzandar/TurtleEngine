@@ -8,7 +8,7 @@
 
 class BoxCollider : public Collider{
     private:
-        sf::FloatRect bounds;
+        sf::RectangleShape bounds;
         float width, height;
 
     public:
@@ -27,9 +27,11 @@ class BoxCollider : public Collider{
         void setTranslate(sf::Vector2f translate) override;
         //-----------------------------------------------
 
-        sf::FloatRect getBounds() const;
+        sf::RectangleShape getBounds() const;
         void setBounds(float x, float y, float width, float height);
         void setBounds(sf::FloatRect bounds);
+
+        std::vector<sf::Vector2f> getVertices() const;
 
         void drawGizmos(sf::RenderWindow &window) override;
 

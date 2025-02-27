@@ -4,7 +4,7 @@
 #include "Component.hpp"
 #include <typeindex>
 
-class GameScript : public Component{
+class GameScript : public Component {
     public:
         GameScript() = default;
         ~GameScript() = default;
