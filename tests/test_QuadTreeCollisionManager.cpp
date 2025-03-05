@@ -4,7 +4,7 @@
 #include "components/Collider.hpp"
 #include "utils/QuadtreeNode.hpp"
 
-/**TEST_CASE("QuadTreeCollisionManager can add and remove colliders") {
+TEST_CASE("QuadTreeCollisionManager can add and remove colliders") {
     QuadTreeCollisionManager manager;
     BoxCollider collider;
     REQUIRE_NOTHROW(manager.addCollider(&collider));
@@ -18,11 +18,11 @@ TEST_CASE("QuadTreeCollisionManager can clear colliders") {
     REQUIRE_NOTHROW(manager.clearColliders());
 }
 
-TEST_CASE("QuadTreeCollisionManager can check collisions between box colliders") {
+/**TEST_CASE("collisions between box colliders") {
     QuadTreeCollisionManager manager;
     BoxCollider collider1(0, 0, 100, 100);
     BoxCollider collider2(50, 50, 100, 100);
     manager.addCollider(&collider1);
     manager.addCollider(&collider2);
     REQUIRE_NOTHROW(manager.checkCollisions());
-}*/
+}**/

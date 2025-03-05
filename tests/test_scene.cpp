@@ -3,19 +3,24 @@
 #include "GameObject.hpp"
 
 TEST_CASE("Scene can add and remove GameObjects") {
+    //by default scene creates a camera object so object count should be 1
     Scene scene;
+    REQUIRE(scene.getNumOfObjects() == 1);
+
+    //try adding new objects
     std::shared_ptr<GameObject> obj = std::make_shared<GameObject>("test");
     REQUIRE(scene.addGameObject(obj));
-    REQUIRE(scene.getNumOfObjects() == 1);
+    REQUIRE(scene.getNumOfObjects() == 2);
+    //try removing object
     REQUIRE(scene.removeGameObject(obj));
-    REQUIRE(scene.getNumOfObjects() == 0);
+    REQUIRE(scene.getNumOfObjects() == 1);
 }
 
 TEST_CASE("Scene can create empty GameObjects") {
     Scene scene;
     std::shared_ptr<GameObject> obj = scene.createEmptyObject();
     REQUIRE(obj != nullptr);
-    REQUIRE(scene.getNumOfObjects() == 1);
+    REQUIRE(scene.getNumOfObjects() == 2);
 }
 
 TEST_CASE("Scene can find GameObjects by name") {

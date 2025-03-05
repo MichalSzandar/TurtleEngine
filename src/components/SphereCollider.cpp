@@ -91,25 +91,27 @@ void SphereCollider::setRadius(float radius) {
 
 bool SphereCollider::intersectsWith(BoxCollider *collider) {
     sf::RectangleShape box = collider->getBounds();
-    if(Maths::distancePointToSegment(bounds.getPosition(), box.getPoint(0), box.getPoint(1)) <= radius) {
-        return true;
-    }
-    if(Maths::distancePointToSegment(bounds.getPosition(), box.getPoint(1), box.getPoint(2)) <= radius) {
-        return true;
-    }
-    if(Maths::distancePointToSegment(bounds.getPosition(), box.getPoint(2), box.getPoint(3)) <= radius) {
-        return true;
-    }
-    if(Maths::distancePointToSegment(bounds.getPosition(), box.getPoint(0), box.getPoint(3)) <= radius) {
-        return true;
-    }
-    return false;
+    sf::Vector2f boxPosition = box.getPosition();
+    sf::Vector2f boxSize = box.getSize();
+    sf::Vector2f boxHalfSize = boxSize / 2.0f;
+    sf::Vector2f boxCenter = boxPosition + boxHalfSize;
+
+    sf::Vector2f sphereCenter = bounds.getPosition();
+    float sphereRadius = bounds.getRadius();
+
+    // Calculate the closest point on the box to the sphere center
+    sf::Vector2f closestPoint;
+    closestPoint.x = std::max(boxPosition.x, std::min(sphereCenter.x, boxPosition.x + boxSize.x));
+    closestPoint.y = std::max(boxPosition.y, std::min(sphereCenter.y, boxPosition.y + boxSize.y));
+
+    // Calculate the distance from the sphere center to the closest point
+    float distance = std::sqrt(std::pow(closestPoint.x - sphereCenter.x, 2) + std::pow(closestPoint.y - sphereCenter.y, 2));
+
+    // Check if the distance is less than or equal to the sphere radius
+    return distance <= sphereRadius;
 }
 
 bool SphereCollider::intersectsWith(SphereCollider *collider) {
-    std::cout<<"sphere intersects with sphere: "<<std::endl;
-    std::cout<<bounds.getPosition().x<<", "<<bounds.getPosition().y<<" , "<<radius<<std::endl;
-    std::cout<<collider->getBounds().getPosition().x<<", "<<collider->getBounds().getPosition().y<<" , "<<collider->getRadius()<<std::endl;
     if(Maths::distance(bounds.getPosition(), collider->getBounds().getPosition()) <= radius + collider->getRadius()) {
         return true;
     }

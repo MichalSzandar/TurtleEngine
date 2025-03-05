@@ -1,14 +1,14 @@
 # Game Engine
 
-This is a simple game engine project. Currently, it supports creating game objects, rendering them, changing their positions, and adding box colliders. A collision manager is also in development.
+This is a simple game engine project. Currently, it supports creating game objects, rendering them, changing their positions, and adding box colliders and handling collisions
 
 ## Features
 
 - **Game Objects**: Create and manage game objects.
 - **Rendering**: Render game objects on the screen.
 - **Transformations**: Change the position, scale, and rotation of game objects.
-- **Box Colliders**: Add box colliders to game objects for collision detection.
-- **Collision Manager**: (Coming soon) Manage and detect collisions between game objects.
+- **Box Colliders**: Add colliders to game objects for collision detection.
+- **Collision Manager**: Manage and detect collisions between game objects.
 
 ## Getting Started
 
