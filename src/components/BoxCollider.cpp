@@ -141,16 +141,22 @@ bool BoxCollider::intersectsWith(BoxCollider *collider) {
 bool BoxCollider::intersectsWith(SphereCollider *collider) {
     sf::CircleShape circle = collider->getBounds();
 
-    if(Maths::distancePointToSegment(circle.getPosition(), bounds.getPoint(0), bounds.getPoint(1)) <= collider->getRadius()) {
+    sf::Vector2f boxPoints[4];
+    for (int i = 0; i < 4; ++i) {
+        boxPoints[i] = bounds.getTransform().transformPoint(bounds.getPoint(i));
+    }
+
+
+    if(Maths::distancePointToSegment(circle.getPosition(), boxPoints[0], boxPoints[1]) <= collider->getRadius()) {
         return true;
     }
-    if(Maths::distancePointToSegment(circle.getPosition(), bounds.getPoint(0), bounds.getPoint(3)) <= collider->getRadius()) {
+    if(Maths::distancePointToSegment(circle.getPosition(), boxPoints[0], boxPoints[3]) <= collider->getRadius()) {
         return true;
     }
-    if(Maths::distancePointToSegment(circle.getPosition(), bounds.getPoint(1), bounds.getPoint(2)) <= collider->getRadius()) {
+    if(Maths::distancePointToSegment(circle.getPosition(), boxPoints[1], boxPoints[2]) <= collider->getRadius()) {
         return true;
     }
-    if(Maths::distancePointToSegment(circle.getPosition(), bounds.getPoint(2), bounds.getPoint(3)) <= collider->getRadius()) {
+    if(Maths::distancePointToSegment(circle.getPosition(), boxPoints[2], boxPoints[3]) <= collider->getRadius()) {
         return true;
     }
 

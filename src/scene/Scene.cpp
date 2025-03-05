@@ -1,5 +1,15 @@
 #include "scene/Scene.hpp"
 
+Scene::Scene() {
+    gameObjects = std::vector<std::shared_ptr<GameObject>>();   
+    std::shared_ptr<GameObject> camera = std::make_shared<GameObject>("MainCamera");
+    camera->addComponent<Camera>(sf::Vector2f(0, 0), sf::Vector2f(800, 600), 0, 1);
+    mainCamera = camera->findComponent<Camera>();
+    addGameObject(camera);
+
+    gameView.create(800, 600);
+}
+
 bool Scene::addGameObject(std::shared_ptr<GameObject> obj) {
     gameObjects.push_back(obj);
     return true;
@@ -34,8 +44,15 @@ void Scene::drawScene(sf::RenderWindow &window) {
     for (auto obj : gameObjects) {
         obj->drawGizmos(window);
     }
+
+    gameView.display();
 }
 
-size_t Scene::getNumOfObjects() {
+void Scene::applyCamera(sf::RenderWindow &window) {
+    window.setView(mainCamera->getView());
+}
+
+size_t Scene::getNumOfObjects()
+{
     return gameObjects.size();
 }

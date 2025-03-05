@@ -66,9 +66,13 @@ set(TEST_SRC_FILES
     ${SRC_DIR}/components/BoxCollider.cpp
     ${SRC_DIR}/components/Collider.cpp
     ${SRC_DIR}/components/SphereCollider.cpp
+    ${SRC_DIR}/collision_managers/QuadTreeCollisionManager.cpp
     ${SRC_DIR}/components/Transformable.cpp
     ${SRC_DIR}/scene/Scene.cpp
     ${SRC_DIR}/utils/Maths.cpp
+    ${SRC_DIR}/utils/QuadtreeNode.cpp
+    ${SRC_DIR}/components/Camera.cpp
+    ${SRC_DIR}/utils/UtilVariables.cpp
     # Add other necessary source files here
 )
 
