@@ -1,14 +1,16 @@
 # Game Engine
 
-This is a simple game engine project. Currently, it supports creating game objects, rendering them, changing their positions, and adding box colliders and handling collisions
+This is a simple game engine project. Currently, it supports creating game objects, rendering them, changing their position, scale, rotation, adding colliders and handling collisions
 
 ## Features
 
 - **Game Objects**: Create and manage game objects.
 - **Rendering**: Render game objects on the screen.
 - **Transformations**: Change the position, scale, and rotation of game objects.
-- **Box Colliders**: Add colliders to game objects for collision detection.
+- **Colliders**: Add colliders to game objects for collision detection.
 - **Collision Manager**: Manage and detect collisions between game objects.
+- **QuadTree space partitioning**: QuadTree data structure used to optimize collision detection
+- **Game view**: switch between game view and editor view
 
 ## Getting Started
 
@@ -20,6 +22,7 @@ This is a simple game engine project. Currently, it supports creating game objec
 - ImGui
 - ImGui-SFML
 - ImGuiFileDialog
+- Catch2 v.3 for tests
 
 ### Building the Project
 
