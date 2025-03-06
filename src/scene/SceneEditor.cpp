@@ -20,6 +20,10 @@ void SceneEditor::showSceneEditor() {
         UtilVariables::isEditorView = !UtilVariables::isEditorView;
     }
 
+    if(ImGui::Button(drawGizmos ? "Hide Gizmos" : "Show Gizmos")) {
+        drawGizmos = !drawGizmos;
+    }
+
     for (auto obj : currentScene->gameObjects) {
         if(obj == nullptr) continue;
         if (ImGui::Selectable(obj->getName().c_str(), selectedGameObject == currentScene->findGameObjectByName(obj->getName()))) {
@@ -57,6 +61,8 @@ void SceneEditor::drawEditorScene(sf::RenderWindow &window) {
 
     drawGrid(window);
     currentScene->drawScene(window);
+    if(drawGizmos && selectedGameObject != nullptr)
+        selectedGameObject->drawGizmos(window);
 }
 
 void SceneEditor::drawGameScene(sf::RenderWindow &window) {
@@ -128,6 +134,14 @@ void SceneEditor::showInspector(CollisionManager* collisionManager) {
     showComponentMenu(collisionManager);
 
     ImGui::End();
+}
+
+void SceneEditor::renderViews(sf::RenderWindow &window) {
+    if (UtilVariables::isEditorView) {
+        drawEditorScene(window);
+    } else {
+        drawGameScene(window);
+    }
 }
 
 void SceneEditor::setCurrentScene(Scene *scene) {

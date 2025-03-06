@@ -3,6 +3,10 @@
 
 #include "Transformable.hpp"
 
+/**
+ * @class Camera
+ * @brief A camera component that can be used to view the scene.
+ */
 class Camera : public Transformable{
     private:
         sf::View view;

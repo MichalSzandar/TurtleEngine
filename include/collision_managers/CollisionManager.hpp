@@ -3,6 +3,10 @@
 
 #include "components/Collider.hpp"
 
+/**
+ * @class CollisionManager
+ * @brief Abstract class for collision managers
+ */
 class CollisionManager {
     public:
     CollisionManager() = default;

@@ -4,6 +4,10 @@
 #include "Collider.hpp"
 #include "components/BoxCollider.hpp"
 
+/**
+ * @class SphereCollider
+ * @brief A collider that has a circular shape.
+ */
 class SphereCollider : public Collider {
     private:
         sf::CircleShape bounds;

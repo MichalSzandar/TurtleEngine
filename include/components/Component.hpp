@@ -7,6 +7,10 @@
 #include <imgui/imgui.h>
 #include <imgui-sfml/imgui-SFML.h>
 
+/**
+ * @class Component
+ * @brief Abstract base class for all components in the game engine.
+ */
 class Component {
     public:
         Component() = default;
@@ -14,8 +18,15 @@ class Component {
 
         virtual std::type_index getType() const = 0;
         
+        /**
+         * @brief Displays the ImGui menu for the component.
+         */
         virtual void displayMenu() = 0;
 
+        /**
+         * @brief Draws the gizmos for the component in the given window.
+         * @param window The window to draw the gizmos in.
+         */
         virtual void drawGizmos(sf::RenderWindow &window) = 0;
 };
 

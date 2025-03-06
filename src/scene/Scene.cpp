@@ -7,7 +7,7 @@ Scene::Scene() {
     mainCamera = camera->findComponent<Camera>();
     addGameObject(camera);
 
-    gameView.create(800, 600);
+    gameView.create(UtilVariables::windowWidth, UtilVariables::windowHeight);
 }
 
 bool Scene::addGameObject(std::shared_ptr<GameObject> obj) {
@@ -40,11 +40,7 @@ void Scene::drawScene(sf::RenderWindow &window) {
         obj->update();
         window.draw(obj->findComponent<SpriteRenderer>()->getSprite());
     }
-
-    for (auto obj : gameObjects) {
-        obj->drawGizmos(window);
-    }
-
+    
     gameView.display();
 }
 

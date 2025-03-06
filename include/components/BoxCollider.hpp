@@ -6,6 +6,10 @@
 #include <SFML/Graphics.hpp>
 #include <typeindex>
 
+/**
+ * @class BoxCollider
+ * @brief A collider that has a rectangular shape.
+ */
 class BoxCollider : public Collider{
     private:
         sf::RectangleShape bounds;
@@ -13,6 +17,14 @@ class BoxCollider : public Collider{
 
     public:
         BoxCollider();
+        
+        /**
+         * @brief Parameterized constructor.
+         * @param x The x position of the collider.
+         * @param y The y position of the collider.
+         * @param width The width of the collider.
+         * @param height The height of the collider.
+         */
         BoxCollider(float x, float y, float width, float height);
         ~BoxCollider() = default;
 
