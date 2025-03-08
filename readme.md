@@ -10,7 +10,7 @@ This is a simple game engine project. Currently, it supports creating game objec
 - **Colliders**: Add colliders to game objects for collision detection.
 - **Collision Manager**: Manage and detect collisions between game objects.
 - **QuadTree space partitioning**: QuadTree data structure used to optimize collision detection
-- **Game view**: switch between game view and editor view
+- **Game view**: switch between game view and editor view, move around scene editor using W A S D, zoom in and out with Q E
 
 ## Getting Started
 
@@ -52,7 +52,7 @@ This is a simple game engine project. Currently, it supports creating game objec
 
 After building the project, you can run the executable:
 ```sh
-./MyCppApp
+./GameEngine
 ```
 to run tests 
 ```sh
