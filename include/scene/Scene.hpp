@@ -6,7 +6,12 @@
 #include <SFML/Graphics.hpp>
 #include "components/SpriteRenderer.hpp"
 #include "components/Camera.hpp"
+#include "utils/UtilVariables.hpp"
 
+/**
+ * @class Scene
+ * @brief A class that represents a scene in the game engine.
+ */
 class Scene {
     public:
     Scene();

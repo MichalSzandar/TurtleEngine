@@ -10,6 +10,10 @@ class UtilVariables {
         static float moveSpeed;
         static float zoomSpeed;
         static bool isEditorView;
+        static float windowHeight;
+        static float windowWidth;
+        static bool drawGizmos;
+        static bool drawGrid;
         static void configure();
 };
 

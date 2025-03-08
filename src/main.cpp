@@ -9,29 +9,17 @@
 #include "utils/UtilVariables.hpp"
 #include "scene/SceneEditor.hpp"
 
-QuadTreeCollisionManager collisionManager;
-SceneEditor sceneEditor;
-
-void renderViews(sf::RenderWindow &window) {
-    if (UtilVariables::isEditorView) {
-        sceneEditor.drawEditorScene(window);
-    } else {
-        sceneEditor.drawGameScene(window);
-    }
-}
-
 int main() {
     UtilVariables::configure();
     
-    sf::RenderWindow window(sf::VideoMode(800, 600), "ThomasEngine");
+    sf::RenderWindow window(sf::VideoMode(UtilVariables::windowWidth, UtilVariables::windowHeight), "ThomasEngine");
     window.setFramerateLimit(60);
 
     // Initialize ImGui
     ImGui::SFML::Init(window);
     
-    sceneEditor = SceneEditor(window);
-
-    collisionManager = QuadTreeCollisionManager(800, 600, 5, 5);
+    SceneEditor sceneEditor(window);
+    QuadTreeCollisionManager collisionManager(UtilVariables::windowWidth, UtilVariables::windowHeight, 5, 5);
 
     while (window.isOpen()) {
         sf::Event event;
@@ -56,7 +44,7 @@ int main() {
         }
         
         window.clear();
-        renderViews(window);
+        sceneEditor.renderViews(window);
         ImGui::SFML::Render(window);
         window.display();
     }

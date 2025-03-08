@@ -6,6 +6,10 @@
 #include <string>
 #include <iostream>
 
+/**
+ * @class SpriteRenderer
+ * @brief A component that renders a sprite.
+ */
 class SpriteRenderer : public Transformable {
     private:
         sf::Sprite sprite;

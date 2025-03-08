@@ -10,11 +10,20 @@
 class BoxCollider;
 class SphereCollider;
 
+/**
+ * @class Collider
+ * @brief Abstract base class for all colliders in the game engine.
+ */
 class Collider : public Transformable {
     public:
         Collider() = default;
         ~Collider() = default;
 
+        /**
+         * @brief Returns true if this collider collides with another collider.
+         * @param collider The collider to check for collision with.
+         * @return true if there is a collision, false otherwise.
+         */
         bool intersects(Collider *collider);
     
         virtual bool intersectsWith(BoxCollider *collider) = 0;
