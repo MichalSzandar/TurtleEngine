@@ -3,6 +3,10 @@
 
 #include "Transformable.hpp"
 
+/**
+ * @class Transform
+ * @brief A component that represents the transform of a game object.
+ */
 class Transform : public Transformable {
     public:
         Transform(float x = 0, float y = 0);

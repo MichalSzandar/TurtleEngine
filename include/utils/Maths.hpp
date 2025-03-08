@@ -4,6 +4,10 @@
 #include <SFML/Graphics.hpp>    
 #include <cmath>
 
+/**
+ * @class Maths
+ * @brief A helper class that contains various mathematical functions.
+ */
 class Maths {
     public:
         static float distance(sf::Vector2f v1, sf::Vector2f v2);

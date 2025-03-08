@@ -4,6 +4,10 @@
 #include <SFML/Graphics.hpp>
 #include "Component.hpp"
 
+/**
+ * @class Transformable
+ * @brief Abstract base class for all transformable components in the game engine.
+ */
 class Transformable : public Component {
     protected:
         sf::Vector2f position, translate, scale, rotation;

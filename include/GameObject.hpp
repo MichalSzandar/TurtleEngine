@@ -12,6 +12,10 @@
 #include "components/Transformable.hpp"
 #include "components/BoxCollider.hpp"
 
+/**
+ * @class GameObject
+ * @brief A class that represents a game object in the game engine.
+ */
 class GameObject {
     private:
         std::vector<std::shared_ptr<GameObject>> children;
@@ -60,8 +64,15 @@ class GameObject {
         std::string getName();
         void setName(std::string newName);
 
+        /**
+         * @brief Updates the game object and its components.
+         */
         void update();
 
+        /**
+         * @brief Draws the gizmos for the game object and its components.
+         * @param window The window to draw the gizmos in.
+         */
         void drawGizmos(sf::RenderWindow &window);
 };
 

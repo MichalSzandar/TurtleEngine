@@ -5,6 +5,10 @@
 #include <SFML/Graphics.hpp>
 #include "components/Collider.hpp"
 
+/**
+ * @class QuadtreeNode
+ * @brief A node in a quadtree structure. Used for collision detection.
+ */
 class QuadtreeNode {
     private:
     sf::FloatRect bounds;

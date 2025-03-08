@@ -3,6 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
+/**
+ * @class UtilVariables
+ * @brief A class that contains various utility variables.
+ */
 class UtilVariables {
     public:
         static sf::Clock deltaClock;

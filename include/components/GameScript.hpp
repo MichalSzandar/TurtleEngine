@@ -4,6 +4,10 @@
 #include "Component.hpp"
 #include <typeindex>
 
+/**
+ * @class GameScript
+ * @brief Abstract base class for all game scripts in the game engine.
+ */
 class GameScript : public Component {
     public:
         GameScript() = default;
