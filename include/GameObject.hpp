@@ -29,6 +29,9 @@ class GameObject {
 
         template <typename T, typename... Args>
         void addComponent(Args&&... args) {
+            if(findComponent<T>() != nullptr) {
+                return;
+            }
             components.push_back(std::make_unique<T>(std::forward<Args>(args)...));
         }
 

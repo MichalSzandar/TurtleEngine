@@ -12,7 +12,7 @@
 int main() {
     UtilVariables::configure();
     
-    sf::RenderWindow window(sf::VideoMode(UtilVariables::windowWidth, UtilVariables::windowHeight), "ThomasEngine");
+    sf::RenderWindow window(sf::VideoMode(UtilVariables::windowWidth, UtilVariables::windowHeight), "TurtleEngine");
     window.setFramerateLimit(60);
 
     // Initialize ImGui
