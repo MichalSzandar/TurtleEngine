@@ -1,4 +1,4 @@
-# Game Engine
+# Turtle Engine
 
 This is a simple game engine project. Currently, it supports creating game objects, rendering them, changing their position, scale, rotation, adding colliders and handling collisions
 
