@@ -28,7 +28,7 @@ This is a simple game engine project. Currently, it supports creating game objec
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/game_engine.git
+    git clone https://github.com/MichalSzandar/TurtleEngine.git
     cd game_engine
     ```
 
